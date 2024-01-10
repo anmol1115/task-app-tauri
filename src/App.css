@@ -117,4 +117,33 @@
     display: flex;
     justify-content: center;
     color: rgb(204, 205, 206);
+    border-top: 1px solid rgb(102, 102, 102);
+}
+
+.task-wrapper-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.task {
+    background-color: rgb(102, 102, 102);
+    border-radius: 15px;
+    margin: 2%;
+    padding: 5%;
+    height: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 34vw;
+}
+
+.task > * {
+    color: rgb(204, 205, 206);
+}
+
+.task-desc {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

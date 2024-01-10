@@ -14,6 +14,12 @@ let data = [
                 "name": "task2",
                 "description": "Lorem ipsum dolor sit amet.",
                 "status": "completed"
+            },
+            {
+                "_id": 3,
+                "name": "task3",
+                "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi aut corporis ad ducimus quam eum placeat doloremque voluptates nostrum laborum animi earum velit repudiandae, labore hic delectus esse maiores provident! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi aut corporis ad ducimus quam eum placeat doloremque voluptates nostrum laborum animi earum velit repudiandae, labore hic delectus esse maiores provident!",
+                "status": "pending"
             }
         ]
     },

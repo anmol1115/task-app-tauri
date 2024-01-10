@@ -1,8 +1,12 @@
 import React from 'react'
 
-function Task() {
+function Task(props) {
+  let {name, desc} = props
   return (
-    <div>Task</div>
+    <div className='task'>
+      <small>{name}</small>
+      <small className='task-desc'>{desc}</small>
+    </div>
   )
 }
 

@@ -15,7 +15,7 @@ function App() {
     if (selectedProject) {
       for (let i = 0; i < data.length; i++) {
         if (data[i]._id === selectedProject) {
-          setTasks(data[i].tasks)
+          setTasks(data[i].tasks.slice())
           break
         }
       }
@@ -28,8 +28,8 @@ function App() {
       <ProjectSection projects={projects} setSelectedProject={setSelectedProject}/>
       <div className='vertical-separator'></div>
       {
-        selectedProject ?
-        <TaskSection/> :
+        !(tasks === null) ?
+        <TaskSection tasks={tasks}/> :
         <NoProject projects={projects} setSelectedProject={setSelectedProject}/>
       }
     </div>
