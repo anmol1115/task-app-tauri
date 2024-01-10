@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ProjectSection from './components/ProjectSection'
 import TaskSection from './components/taskSection'
 import data from './dummyData'
+import NoProject from './NoProject'
 
 import './App.css'
 
@@ -12,7 +13,6 @@ function App() {
 
   useEffect(() => {
     if (selectedProject) {
-      console.log(selectedProject)
       for (let i = 0; i < data.length; i++) {
         if (data[i]._id === selectedProject) {
           setTasks(data[i].tasks)
@@ -22,19 +22,16 @@ function App() {
     }
 
   }, [selectedProject])
-
-  useEffect(() => {
-    console.log(tasks)
   
-  }, [tasks])
-  
-  
-
   return (
     <div className='main-container'>
       <ProjectSection projects={projects} setSelectedProject={setSelectedProject}/>
       <div className='vertical-separator'></div>
-      <TaskSection />
+      {
+        selectedProject ?
+        <TaskSection/> :
+        <NoProject projects={projects} setSelectedProject={setSelectedProject}/>
+      }
     </div>
   )
 }
