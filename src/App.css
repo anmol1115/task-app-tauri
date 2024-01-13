@@ -148,3 +148,47 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+.create-project {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.create-project-input-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    color:rgb(204, 205, 206);
+    width: 100vw;
+}
+
+.create-project > button {
+    width: fit-content;
+}
+
+.create-task {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.create-task-input-section {
+    display: flex;
+    flex-direction: column;
+    color: rgb(204, 205, 206);
+    width: 100vw;
+}
+
+.create-task-input-section > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 1%;
+}

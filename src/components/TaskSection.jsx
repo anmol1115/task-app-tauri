@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Tasks from './Tasks'
 
+import { invoke } from '@tauri-apps/api'
+
 function TaskSection(props) {
   let {tasks} = props
   const [completedTasks, setCompletedTasks] = useState([])
@@ -27,7 +29,7 @@ function TaskSection(props) {
     <div className='task-container'>
         <div className='task-title'>
           <small>Tasks</small>
-          <button>+</button>
+          <button onClick={() => { invoke("new_task_window") }}>+</button>
         </div>
         <div className='task-wrapper'>
           <Tasks title={'Pending Tasks'} tasks={pendingTasks}/>

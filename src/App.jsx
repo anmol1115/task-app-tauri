@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ProjectSection from './components/ProjectSection'
 import TaskSection from './components/taskSection'
+import NoProject from './components/NoProject'
 import data from './dummyData'
-import NoProject from './NoProject'
 
 import './App.css'
 
