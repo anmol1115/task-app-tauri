@@ -1,3 +1,14 @@
+use serde::{Serialize, Deserialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Task {
+    #[serde(rename="_id")]
+    id: String,
+    name: String,
+    description: String,
+    status: String
+}
+
 #[tauri::command]
 pub async fn new_task_window(handle: tauri::AppHandle) {
     let _new_window = tauri::WindowBuilder::new(
