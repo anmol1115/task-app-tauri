@@ -6,6 +6,18 @@ use crate::tasks::Task;
 use crate::util::gen_id;
 
 #[derive(Debug, Deserialize, Serialize)]
+struct Projects {
+    selected_project: Option<String>,
+    projects: Vec<Project>
+}
+
+impl Projects {
+    fn add_project(&mut self, new_project: Project) {
+        let _ = self.projects.push(new_project);
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize)]
 struct Project {
     #[serde(rename="_id")]
     id: String,
@@ -32,11 +44,11 @@ pub fn create_project(project_name: String) {
     let mut content = String::new();
     
     file.read_to_string(&mut content).expect("Error reading from file");
-    let mut projects: Vec<Project> = serde_json::from_str(&content).expect("Failed to pass to struct");
+    let mut projects: Projects = serde_json::from_str(&content).expect("Failed to pass to struct");
     
     let mut file = File::create("../db.json").expect("File not found");
     let new_project = Project{id: gen_id(), name: project_name, tasks: vec![]};
-    projects.push(new_project);
+    projects.add_project(new_project);
 
     let json_data = serde_json::to_string_pretty(&projects).expect("Failed to parse to json");
     file.write_all(json_data.as_bytes()).expect("Failed to write to file");
@@ -48,5 +60,22 @@ pub fn get_projects() -> String {
     let mut content = String::new();
 
     file.read_to_string(&mut content).expect("Error reading from file");
-    content
+    let projects: Projects = serde_json::from_str(&content).expect("Failed to pass to struct");
+    let projects = projects.projects;
+
+    serde_json::to_string_pretty(&projects).expect("Failed to parse to json")
+}
+
+#[tauri::command]
+pub fn select_project(project_id: String) {
+    let mut file = File::open("../db.json").expect("File not found");
+    let mut content = String::new();
+
+    file.read_to_string(&mut content).expect("Error reading from file");
+    let mut projects: Projects = serde_json::from_str(&content).expect("Failed to pass to struct");
+    projects.selected_project = Some(project_id);
+
+    let mut file = File::create("../db.json").expect("File not found");
+    let json_data = serde_json::to_string_pretty(&projects).expect("Failed to parse to json");
+    file.write_all(json_data.as_bytes()).expect("Failed to write to file");
 }
