@@ -2,14 +2,29 @@ import React, { useState, useEffect } from 'react'
 import ProjectSection from './components/ProjectSection'
 import TaskSection from './components/taskSection'
 import NoProject from './components/NoProject'
-import data from './dummyData'
+
+import { invoke } from '@tauri-apps/api'
 
 import './App.css'
 
 function App() {
-  const [projects, setProjects] = useState(data.map(element => [element._id, element.name]))
+  const [data, setData] = useState([])
+  const [projects, setProjects] = useState([])
   const [tasks, setTasks] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
+
+  useEffect(() => {
+    invoke('get_projects').then((response) => {
+      response = JSON.parse(response)
+      setData(response)
+    })
+  }, [])
+
+  useEffect(() => {
+    setProjects(data.map(element => [element._id, element.name]))
+  
+  }, [data])
+  
 
   useEffect(() => {
     if (selectedProject) {

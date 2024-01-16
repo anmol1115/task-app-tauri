@@ -27,7 +27,7 @@ pub async fn new_project_window(handle: tauri::AppHandle) {
 }
 
 #[tauri::command]
-pub async fn create_project(project_name: String) {
+pub fn create_project(project_name: String) {
     let mut file = File::open("../db.json").expect("File not found");
     let mut content = String::new();
     
@@ -40,4 +40,13 @@ pub async fn create_project(project_name: String) {
 
     let json_data = serde_json::to_string_pretty(&projects).expect("Failed to parse to json");
     file.write_all(json_data.as_bytes()).expect("Failed to write to file");
+}
+
+#[tauri::command]
+pub fn get_projects() -> String {
+    let mut file = File::open("../db.json").expect("File not found");
+    let mut content = String::new();
+
+    file.read_to_string(&mut content).expect("Error reading from file");
+    content
 }

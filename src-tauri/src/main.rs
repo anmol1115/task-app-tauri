@@ -6,11 +6,11 @@ mod tasks;
 mod projects;
 
 use crate::tasks::new_task_window;
-use crate::projects::{new_project_window, create_project};
+use crate::projects::{new_project_window, create_project, get_projects};
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![new_project_window, new_task_window, create_project])
+    .invoke_handler(tauri::generate_handler![new_project_window, new_task_window, create_project, get_projects])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
