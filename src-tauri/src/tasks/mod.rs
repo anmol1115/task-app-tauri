@@ -21,3 +21,8 @@ pub async fn new_task_window(handle: tauri::AppHandle) {
     .inner_size(300.0, 150.0)
     .build().unwrap();
 }
+
+#[tauri::command]
+pub fn create_task(task_name: String, task_desc: String, task_status: String) {
+    println!("{task_name}, {task_desc}, {task_status}");
+}
