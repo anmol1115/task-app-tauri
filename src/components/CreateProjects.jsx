@@ -10,6 +10,9 @@ function CreateProject() {
 
   function handleSubmit() {
     invoke('create_project', {"projectName": projectName})
+    invoke('get_projects').then((updated_data) => {
+      localStorage.setItem("updated_data", updated_data)
+    })
   }
 
   return (

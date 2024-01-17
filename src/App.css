@@ -35,13 +35,16 @@
 }
 
 .project-button-container {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid white;
 }
 
 .project-button-container > * {
+    display: flex;
+    justify-content: center;
     border-radius: 25%;
-    padding: 10%;
+    padding: 2vw;
     margin: 2%;
     background-color: rgba(37, 37, 38, 1);
     cursor: pointer;

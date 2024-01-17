@@ -40,7 +40,7 @@ function App() {
   
   return (
     <div className='main-container'>
-      <ProjectSection projects={projects} setSelectedProject={setSelectedProject}/>
+      <ProjectSection projects={projects} setSelectedProject={setSelectedProject} setData={setData}/>
       <div className='vertical-separator'></div>
       {
         !(tasks === null) ?
