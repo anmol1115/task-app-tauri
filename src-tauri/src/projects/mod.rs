@@ -70,6 +70,15 @@ impl Project {
             idx += 1;
         }
     }
+
+    pub fn get_selected_task(&mut self, task_id: String) -> &mut Task {
+        for task in &mut self.tasks {
+            if task.get_id() == task_id {
+                return task
+            }
+        }
+        unreachable!()
+    }
 }
 
 #[tauri::command]

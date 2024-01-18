@@ -15,6 +15,14 @@ impl Task {
     pub fn get_id(&self) -> String {
         self.id.clone()
     }
+
+    fn task_completed(&mut self) {
+        self.status = String::from("completed");
+    }
+
+    fn task_pending(&mut self) {
+        self.status = String::from("pending");
+    }
 }
 
 #[tauri::command]
@@ -46,5 +54,27 @@ pub fn delete_task(task_id: String) {
     let selected_project = projects.get_selected_project();
 
     selected_project.delete_task(task_id);
+    load_to_json(&projects);
+}
+
+#[tauri::command]
+pub fn mark_as_completed(task_id: String) {
+    let mut projects = load_from_json();
+    let selected_projects = projects.get_selected_project();
+
+    let selected_task = selected_projects.get_selected_task(task_id);
+    selected_task.task_completed();
+
+    load_to_json(&projects);
+}
+
+#[tauri::command]
+pub fn mark_as_pending(task_id: String) {
+    let mut projects = load_from_json();
+    let selected_projects = projects.get_selected_project();
+
+    let selected_task = selected_projects.get_selected_task(task_id);
+    selected_task.task_pending();
+
     load_to_json(&projects);
 }

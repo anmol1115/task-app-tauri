@@ -1,5 +1,5 @@
 {
-  "selected_project": "wb2So9E",
+  "selected_project": "VXTO4bP",
   "projects": [
     {
       "_id": "ALSDND",
@@ -41,6 +41,18 @@
       "_id": "RTYRTY",
       "name": "project3",
       "tasks": []
+    },
+    {
+      "_id": "VXTO4bP",
+      "name": "New project",
+      "tasks": [
+        {
+          "_id": "i8It1cD",
+          "name": "New Task",
+          "description": "Some description",
+          "status": "completed"
+        }
+      ]
     }
   ]
 }

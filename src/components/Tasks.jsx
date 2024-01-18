@@ -9,7 +9,7 @@ function Tasks(props) {
       <div className='task-wrapper-content'>
         {
           tasks.map(ele => {
-            return <Task key={ele._id} id={ele._id} name={ele.name} desc={ele.description} setData={setData}/>
+            return <Task key={ele._id} id={ele._id} name={ele.name} desc={ele.description} setData={setData} section={title}/>
           })
         }
       </div>
