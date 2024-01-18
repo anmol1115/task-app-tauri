@@ -24,7 +24,22 @@ function App() {
     setProjects(data.map(element => [element._id, element.name]))
   
   }, [data])
+
+  useEffect(() => {
+    invoke('unselect_project')
+    const handleStorageChange = (event) => {
+      if (event.key == "updated_data") {
+        let updated_data = JSON.parse(localStorage.getItem("updated_data"))
+        setData(updated_data)
+      }
+    }
+
+    window.addEventListener("storage", handleStorageChange)
   
+    return () => {
+      window.removeEventListener("storage", handleStorageChange)
+    }
+  }, [])
 
   useEffect(() => {
     if (selectedProject) {
@@ -36,11 +51,11 @@ function App() {
       }
     }
 
-  }, [selectedProject])
+  }, [selectedProject, data])
   
   return (
     <div className='main-container'>
-      <ProjectSection projects={projects} setSelectedProject={setSelectedProject} setData={setData}/>
+      <ProjectSection projects={projects} setSelectedProject={setSelectedProject}/>
       <div className='vertical-separator'></div>
       {
         !(tasks === null) ?

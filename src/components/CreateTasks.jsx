@@ -8,10 +8,13 @@ import { invoke } from '@tauri-apps/api'
 function CreateTask() {
   const [taskName, setTaskName] = useState("")
   const [taskDesc, setTaskDesc] = useState("")
-  const [taskStatus, setTaskStatus] = useState("Pending")
+  const [taskStatus, setTaskStatus] = useState("pending")
 
   function handleSubmit() {
     invoke('create_task', {"taskName": taskName, "taskDesc": taskDesc, "taskStatus": taskStatus})
+    invoke('get_projects').then((updated_data) => {
+      localStorage.setItem("updated_data", updated_data)
+    })
   }
 
   return (
@@ -28,8 +31,8 @@ function CreateTask() {
         <div>
           <small>Task Status</small>
           <select value={taskStatus} onChange={e => {setTaskStatus(e.target.value)}}>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
           </select>
         </div>
       </div>

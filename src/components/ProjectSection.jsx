@@ -8,23 +8,7 @@ function ProjectSection(props) {
     invoke('new_project_window')
   }
 
-  useEffect(() => {
-    const handleStorageChange = (event) => {
-      if (event.key == "updated_data") {
-        let updated_data = JSON.parse(localStorage.getItem("updated_data"))
-        setData(updated_data)
-      }
-    }
-
-    window.addEventListener("storage", handleStorageChange)
-  
-    return () => {
-      window.removeEventListener("storage", handleStorageChange)
-    }
-  }, [])
-  
-
-  let {projects, setSelectedProject, setData} = props
+  let {projects, setSelectedProject} = props
   return (
     <div className='project-container'>
         <div className='project-title'>
