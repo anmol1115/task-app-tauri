@@ -8,7 +8,7 @@ function ProjectSection(props) {
     invoke('new_project_window')
   }
 
-  let {projects, setSelectedProject} = props
+  let {projects, setSelectedProject, setData, setTasks} = props
   return (
     <div className='project-container'>
         <div className='project-title'>
@@ -19,7 +19,7 @@ function ProjectSection(props) {
           {
             projects.map((project) => {
               let [_id, name] = project
-              return <Project key={_id} name={name} id={_id} setSelectedProject={setSelectedProject}></Project>
+              return <Project key={_id} name={name} id={_id} setSelectedProject={setSelectedProject} setData={setData} setTasks={setTasks}></Project>
             })
           }
         </div>

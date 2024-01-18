@@ -55,11 +55,11 @@ function App() {
   
   return (
     <div className='main-container'>
-      <ProjectSection projects={projects} setSelectedProject={setSelectedProject}/>
+      <ProjectSection projects={projects} setSelectedProject={setSelectedProject} setData={setData} setTasks={setTasks}/>
       <div className='vertical-separator'></div>
       {
         !(tasks === null) ?
-        <TaskSection tasks={tasks}/> :
+        <TaskSection tasks={tasks} setData={setData}/> :
         <NoProject projects={projects} setSelectedProject={setSelectedProject}/>
       }
     </div>

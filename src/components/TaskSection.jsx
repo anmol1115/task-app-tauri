@@ -4,7 +4,7 @@ import Tasks from './Tasks'
 import { invoke } from '@tauri-apps/api'
 
 function TaskSection(props) {
-  let {tasks} = props
+  let {tasks, setData} = props
   const [completedTasks, setCompletedTasks] = useState([])
   const [pendingTasks, setPendingTasks] = useState([])
 
@@ -32,9 +32,9 @@ function TaskSection(props) {
           <button onClick={() => { invoke("new_task_window") }}>+</button>
         </div>
         <div className='task-wrapper'>
-          <Tasks title={'Pending Tasks'} tasks={pendingTasks}/>
+          <Tasks title={'Pending Tasks'} tasks={pendingTasks} setData={setData}/>
           <div className='vertical-separator'></div>
-          <Tasks title={'Completed Tasks'} tasks={completedTasks}/>
+          <Tasks title={'Completed Tasks'} tasks={completedTasks} setData={setData}/>
         </div>
     </div>
   )

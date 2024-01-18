@@ -1,9 +1,7 @@
-use std::fs::File;
-use std::io::{Read, Write};
 use serde::{Serialize, Deserialize};
 
 use crate::tasks::Task;
-use crate::util::gen_id;
+use crate::util::{gen_id, load_from_json, load_to_json};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Projects {
@@ -32,6 +30,17 @@ impl Projects {
     pub fn unselect_project(&mut self) {
         self.selected_project = None;
     }
+
+    fn delete_project(&mut self, project_id: String) {
+        let mut idx = 0;
+        while idx < self.projects.len() {
+            if self.projects[idx].id == project_id {
+                self.projects.remove(idx);
+                break;
+            }
+            idx += 1;
+        }
+    }
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -50,6 +59,17 @@ impl Project {
     pub fn add_task(&mut self, new_task: Task) {
         let _ = self.tasks.push(new_task);
     }
+
+    pub fn delete_task(&mut self, task_id: String) {
+        let mut idx = 0;
+        while idx < self.tasks.len() {
+            if self.tasks[idx].get_id() == task_id {
+                self.tasks.remove(idx);
+                break;
+            }
+            idx += 1;
+        }
+    }
 }
 
 #[tauri::command]
@@ -67,28 +87,26 @@ pub async fn new_project_window(handle: tauri::AppHandle) {
 
 #[tauri::command]
 pub fn create_project(project_name: String) {
-    let mut file = File::open("../db.json").expect("File not found");
-    let mut content = String::new();
+    let mut projects = load_from_json();
     
-    file.read_to_string(&mut content).expect("Error reading from file");
-    let mut projects: Projects = serde_json::from_str(&content).expect("Failed to pass to struct");
-    
-    let mut file = File::create("../db.json").expect("File not found");
     let new_project = Project{id: gen_id(), name: project_name, tasks: vec![]};
     projects.add_project(new_project);
 
-    let json_data = serde_json::to_string_pretty(&projects).expect("Failed to parse to json");
-    file.write_all(json_data.as_bytes()).expect("Failed to write to file");
+    load_to_json(&projects);
 }
 
 #[tauri::command]
 pub fn get_projects() -> String {
-    let mut file = File::open("../db.json").expect("File not found");
-    let mut content = String::new();
-
-    file.read_to_string(&mut content).expect("Error reading from file");
-    let projects: Projects = serde_json::from_str(&content).expect("Failed to pass to struct");
+    let projects = load_from_json();
     let projects = projects.projects;
 
     serde_json::to_string_pretty(&projects).expect("Failed to parse to json")
+}
+
+#[tauri::command]
+pub fn delete_project(project_id: String) {
+    let mut projects = load_from_json();
+    projects.delete_project(project_id);
+
+    load_to_json(&projects);
 }

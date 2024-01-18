@@ -14,11 +14,7 @@ pub fn gen_id() -> String {
 
 #[tauri::command]
 pub fn select_project(project_id: String) {
-    let mut file = File::open("../db.json").expect("File not found");
-    let mut content = String::new();
-
-    file.read_to_string(&mut content).expect("Error reading from file");
-    let mut projects: Projects = serde_json::from_str(&content).expect("Failed to pass to struct");
+    let mut projects = load_from_json();
     projects.update_selected_project(project_id);
 
     let mut file = File::create("../db.json").expect("File not found");
@@ -28,13 +24,22 @@ pub fn select_project(project_id: String) {
 
 #[tauri::command]
 pub fn unselect_project() {
+    let mut projects = load_from_json();
+    projects.unselect_project();
+    load_to_json(&projects);
+}
+
+pub fn load_from_json() -> Projects {
     let mut file = File::open("../db.json").expect("File not found");
     let mut content = String::new();
 
     file.read_to_string(&mut content).expect("Error reading from file");
-    let mut projects: Projects = serde_json::from_str(&content).expect("Failed to parse to struct");
+    let projects: Projects = serde_json::from_str(&content).expect("Failed to parse to struct");
 
-    projects.unselect_project();
+    projects
+}
+
+pub fn load_to_json(projects: &Projects) {
     let mut file = File::create("../db.json").expect("File not found");
     let json_data = serde_json::to_string_pretty(&projects).expect("Failed to parse to json");
     file.write_all(json_data.as_bytes()).expect("Failed to write to file");
