@@ -19,6 +19,10 @@ function Project(props) {
     })
   }
 
+  function handleEdit() {
+    invoke('edit_project_window')
+  }
+
   const {name, id, setSelectedProject, setData, setTasks} = props
   
   return (
@@ -27,7 +31,7 @@ function Project(props) {
         {name}
       </div>
       <div className='project-buttons'>
-        <MdEdit />
+        <MdEdit onClick={handleEdit}/>
         <MdDeleteOutline onClick={handleDelete}/>
       </div>
     </div>

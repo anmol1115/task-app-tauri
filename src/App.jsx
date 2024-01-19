@@ -27,6 +27,7 @@ function App() {
 
   useEffect(() => {
     invoke('unselect_project')
+    invoke('unselect_task')
     const handleStorageChange = (event) => {
       if (event.key == "updated_data") {
         let updated_data = JSON.parse(localStorage.getItem("updated_data"))

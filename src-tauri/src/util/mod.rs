@@ -17,15 +17,28 @@ pub fn select_project(project_id: String) {
     let mut projects = load_from_json();
     projects.update_selected_project(project_id);
 
-    let mut file = File::create("../db.json").expect("File not found");
-    let json_data = serde_json::to_string_pretty(&projects).expect("Failed to parse to json");
-    file.write_all(json_data.as_bytes()).expect("Failed to write to file");
+    load_to_json(&projects);
+}
+
+#[tauri::command]
+pub fn select_task(task_id: String) {
+    let mut projects = load_from_json();
+    projects.update_selected_task(task_id);
+
+    load_to_json(&projects);
 }
 
 #[tauri::command]
 pub fn unselect_project() {
     let mut projects = load_from_json();
     projects.unselect_project();
+    load_to_json(&projects);
+}
+
+#[tauri::command]
+pub fn unselect_task() {
+    let mut projects = load_from_json();
+    projects.unselect_task();
     load_to_json(&projects);
 }
 

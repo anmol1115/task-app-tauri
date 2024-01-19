@@ -1,5 +1,6 @@
 {
-  "selected_project": "VXTO4bP",
+  "selected_project": null,
+  "selected_task": null,
   "projects": [
     {
       "_id": "ALSDND",
@@ -43,14 +44,14 @@
       "tasks": []
     },
     {
-      "_id": "VXTO4bP",
-      "name": "New project",
+      "_id": "Artz9qj",
+      "name": "New Project",
       "tasks": [
         {
-          "_id": "i8It1cD",
+          "_id": "16UeW7V",
           "name": "New Task",
-          "description": "Some description",
-          "status": "completed"
+          "description": "",
+          "status": "pending"
         }
       ]
     }

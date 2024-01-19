@@ -23,6 +23,16 @@ impl Task {
     fn task_pending(&mut self) {
         self.status = String::from("pending");
     }
+
+    fn update(&mut self, name: Option<String>, desc: Option<String>) {
+        if let Some(val) = name {
+            self.name = val;
+        }
+
+        if let Some(val) = desc {
+            self.description = val;
+        }
+    }
 }
 
 #[tauri::command]
@@ -33,6 +43,19 @@ pub async fn new_task_window(handle: tauri::AppHandle) {
         tauri::WindowUrl::App("../../../src/static/createTask.html".into())
     )
     .title("Create Task")
+    .resizable(false)
+    .inner_size(300.0, 150.0)
+    .build().unwrap();
+}
+
+#[tauri::command]
+pub async fn edit_task_window(handle: tauri::AppHandle) {
+    let _new_window = tauri::WindowBuilder::new(
+        &handle,
+        "edit_task_window",
+        tauri::WindowUrl::App("../../../src/static/editTask.html".into())
+    )
+    .title("Edit Task")
     .resizable(false)
     .inner_size(300.0, 150.0)
     .build().unwrap();
@@ -77,4 +100,15 @@ pub fn mark_as_pending(task_id: String) {
     selected_task.task_pending();
 
     load_to_json(&projects);
+}
+
+#[tauri::command]
+pub fn update_task(task_name: Option<String>, task_desc: Option<String>) {
+    let mut projects = load_from_json();
+    let task_id = projects.get_selected_task_id();
+    let selected_project = projects.get_selected_project();
+
+    let selected_task = selected_project.get_selected_task(task_id);
+    selected_task.update(task_name, task_desc);
+    load_to_json(&projects)
 }

@@ -6,6 +6,7 @@ import { invoke } from '@tauri-apps/api'
 function Task(props) {
   function handleDelete() {
     invoke('delete_task', {'taskId': id})
+    invoke('unselect_task')
     invoke('get_projects').then((response) => {
       response = JSON.parse(response)
       setData(response)
@@ -28,6 +29,11 @@ function Task(props) {
     })
   }
 
+  function handleEdit() {
+    invoke('edit_task_window')
+    invoke('select_task', {"taskId": id})
+  }
+
   let {id, name, desc, setData, section} = props
   return (
     <>
@@ -40,7 +46,7 @@ function Task(props) {
             <MdCheck onClick={handleCompleted}/>:
             <MdCancel onClick={handlePending}/>
           }
-          <MdEdit />
+          <MdEdit onClick={handleEdit}/>
           <MdDeleteOutline onClick={handleDelete}/>
         </div>
       </div>

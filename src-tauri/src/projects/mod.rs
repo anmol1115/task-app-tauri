@@ -6,6 +6,7 @@ use crate::util::{gen_id, load_from_json, load_to_json};
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Projects {
     selected_project: Option<String>,
+    selected_task: Option<String>,
     projects: Vec<Project>
 }
 
@@ -40,6 +41,18 @@ impl Projects {
             }
             idx += 1;
         }
+    }
+
+    pub fn update_selected_task(&mut self, id: String) {
+        self.selected_task = Some(id);
+    }
+
+    pub fn unselect_task(&mut self) {
+        self.selected_task = None;
+    }
+
+    pub fn get_selected_task_id(&self) -> String {
+        self.selected_task.as_ref().unwrap().clone()
     }
 }
 
@@ -79,6 +92,10 @@ impl Project {
         }
         unreachable!()
     }
+
+    fn update(&mut self, name: String) {
+        self.name = name;
+    }
 }
 
 #[tauri::command]
@@ -89,6 +106,19 @@ pub async fn new_project_window(handle: tauri::AppHandle) {
         tauri::WindowUrl::App("../../../src/static/createProject.html".into())
     )
     .title("Create Project")
+    .resizable(false)
+    .inner_size(300.0, 110.0)
+    .build().unwrap();
+}
+
+#[tauri::command]
+pub async fn edit_project_window(handle: tauri::AppHandle) {
+    let _new_window = tauri::WindowBuilder::new(
+        &handle,
+        "edit_project_window",
+        tauri::WindowUrl::App("../../../src/static/editProject.html".into())
+    )
+    .title("Edit Project")
     .resizable(false)
     .inner_size(300.0, 110.0)
     .build().unwrap();
@@ -117,5 +147,14 @@ pub fn delete_project(project_id: String) {
     let mut projects = load_from_json();
     projects.delete_project(project_id);
 
+    load_to_json(&projects);
+}
+
+#[tauri::command]
+pub fn update_project(project_name: String) {
+    let mut projects = load_from_json();
+    let selected_project = projects.get_selected_project();
+
+    selected_project.update(project_name);
     load_to_json(&projects);
 }
