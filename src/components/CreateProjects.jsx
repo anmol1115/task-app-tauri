@@ -4,6 +4,7 @@ import '../index.css'
 import '../App.css'
 
 import { invoke } from '@tauri-apps/api'
+import { appWindow } from '@tauri-apps/api/window'
 
 function CreateProject() {
   const [projectName, setProjectName] = useState("")
@@ -13,6 +14,7 @@ function CreateProject() {
     invoke('get_projects').then((updated_data) => {
       localStorage.setItem("updated_data", updated_data)
     })
+    appWindow.close()
   }
 
   return (

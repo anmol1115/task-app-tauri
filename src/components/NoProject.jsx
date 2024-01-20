@@ -2,6 +2,11 @@ import React from 'react'
 import {invoke} from '@tauri-apps/api'
 
 function NoProject(props) {
+  function handleSubmit(id) {
+    invoke('select_project', {"projectId": id})
+    setSelectedProject(id)
+  }
+
   let {projects, setSelectedProject} = props
   return (
     <div className='no-project'>
@@ -13,7 +18,7 @@ function NoProject(props) {
             {
                 projects.map(element => {
                     let [_id, name] = element
-                    return <div key={_id} onClick={_=>{setSelectedProject(_id)}}>{name}</div>
+                    return <div key={_id} onClick={_=>{handleSubmit(_id)}}>{name}</div>
                 })
             }
         </div>
